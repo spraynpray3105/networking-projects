@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Security Dashboard Builder</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  </head>
+  <body data-theme="red-black">
+    <header class="topbar">
+      <div>
+        <h1>Security Dashboard Builder</h1>
+        <p>Drag, drop, configure, then export and deploy in under 2 hours.</p>
+      </div>
+      <div class="actions">
+        <label for="themePicker">Theme</label>
+        <select id="themePicker">
+          <option value="red-black">Red / Black</option>
+          <option value="midnight-blue">Midnight Blue</option>
+          <option value="matrix-green">Matrix Green</option>
+          <option value="clean-light">Clean Light</option>
+        </select>
+      </div>
+    </header>
+
+    <main class="layout">
+      <aside class="panel">
+        <h2>Widget Library</h2>
+        <p>Drag a widget into the dashboard canvas.</p>
+        <div id="palette" class="widget-palette">
+          <div class="widget-item" draggable="true" data-widget="alerts">Alerts Feed</div>
+          <div class="widget-item" draggable="true" data-widget="incidents">Incident Queue</div>
+          <div class="widget-item" draggable="true" data-widget="metrics">Security Metrics</div>
+          <div class="widget-item" draggable="true" data-widget="logs">Log Stream</div>
+          <div class="widget-item" draggable="true" data-widget="map">Threat Map</div>
+          <div class="widget-item" draggable="true" data-widget="uptime">Sensor Uptime</div>
+        </div>
+
+        <h2>Import / Export</h2>
+        <div class="btn-group">
+          <button id="importBtn" class="btn">Import Config File</button>
+          <input id="importFile" type="file" accept="application/json" hidden />
+          <button id="exportBtn" class="btn">Export Config JSON</button>
+          <button id="bundleBtn" class="btn primary">Download Deployment Bundle</button>
+        </div>
+      </aside>
+
+      <section class="canvas-wrap">
+        <h2>Dashboard Canvas</h2>
+        <p>Reorder by dragging cards around. Click a card to edit it.</p>
+        <div id="canvas" class="canvas" aria-label="Dashboard canvas"></div>
+      </section>
+
+      <aside class="panel">
+        <h2>Configuration</h2>
+        <div class="tab-row">
+          <button class="tab active" data-tab="widgetConfig">Widget</button>
+          <button class="tab" data-tab="connectionConfig">Connections</button>
+        </div>
+
+        <div id="widgetConfig" class="tab-panel active">
+          <p class="muted">Select a widget to configure it.</p>
+          <form id="widgetForm">
+            <label>Title <input id="widgetTitle" type="text" /></label>
+            <label>Data Source Key <input id="widgetSource" type="text" placeholder="siem-main" /></label>
+            <label>Refresh Interval (seconds) <input id="widgetRefresh" type="number" min="5" step="5" value="30" /></label>
+            <label>Filters (comma-separated)
+              <input id="widgetFilters" type="text" placeholder="critical,login,endpoint" />
+            </label>
+            <button type="submit" class="btn">Save Widget Settings</button>
+          </form>
+        </div>
+
+        <div id="connectionConfig" class="tab-panel">
+          <form id="connectionForm">
+            <label>Connection Name <input id="connectionName" type="text" required /></label>
+            <label>Type
+              <select id="connectionType">
+                <option value="siem">SIEM</option>
+                <option value="api">API</option>
+                <option value="database">Database</option>
+                <option value="webhook">Webhook</option>
+              </select>
+            </label>
+            <label>Host / URL <input id="connectionHost" type="text" placeholder="https://siem.local" required /></label>
+            <label>Port <input id="connectionPort" type="number" min="1" max="65535" /></label>
+            <label>Username <input id="connectionUser" type="text" /></label>
+            <label>Password or Token <input id="connectionSecret" type="password" /></label>
+            <button type="submit" class="btn">Add / Update Connection</button>
+          </form>
+          <h3>Defined Connections</h3>
+          <ul id="connectionList" class="connection-list"></ul>
+        </div>
+      </aside>
+    </main>
+
+    <template id="cardTemplate">
+      <article class="widget-card" draggable="true">
+        <header>
+          <h3></h3>
+          <button class="danger remove">✕</button>
+        </header>
+        <p class="widget-type"></p>
+        <p class="widget-source"></p>
+      </article>
+    </template>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+  </body>
+</html>

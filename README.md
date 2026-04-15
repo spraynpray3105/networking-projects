@@ -39,6 +39,33 @@ A collection of networking-related projects for learning, experimentation, and p
 
 ---
 
+### Security Dashboard Builder (`dashboard_builder/`)
+
+A drag-and-drop web app that helps users design a customizable security dashboard quickly, then export configuration and a deployment bundle for local infrastructure.
+
+#### Highlights
+
+- Drag/drop dashboard widgets and reorder them visually
+- Widget-level configuration via GUI
+- Connection management via GUI (SIEM/API/Database/Webhook)
+- Import/export full configuration as JSON
+- Download a deployment bundle with `docker-compose.yml`
+- Theme picker (Red/Black, Midnight Blue, Matrix Green, Clean Light)
+
+#### Quick start
+
+```sh
+cd dashboard_builder
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python app.py
+```
+
+Open `http://localhost:8000`.
+
+---
+
 ## License
 
 Distributed under the GNU 3.0 License. See [LICENSE](LICENSE) for more information.
